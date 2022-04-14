@@ -1,0 +1,106 @@
+ul {
+    width: 50%;
+    margin: 0px;
+    padding: 0;
+    list-style-type: none;
+}
+
+li {
+    display: block;
+    margin: 0px;
+    width: 500px;
+    font-size: 18px;
+    text-align: center;
+}
+
+li button {
+    padding: 5px;
+    margin: 5px;
+    background-color: #4682b4;
+    font-size: 18px;
+    width: 450px;
+}
+
+.functions {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.procedures {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    font-family: "Roboto", "Arial", sans-serif;
+    display: flex;
+}
+
+.datadiv {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border: 1px solid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+table {
+    margin: 5px auto;
+    width: 50%;
+    /* Ширина таблицы */
+    border-collapse: collapse;
+    /* Убираем двойные линии */
+}
+
+thead {
+    background: #f5e8d0;
+    /* Цвет фона заголовка */
+}
+
+td,
+th {
+    padding: 5px;
+    /* Поля в ячейках */
+    border: 1px solid #333;
+    /* Параметры рамки */
+    text-align: center;
+    justify-content: center;
+}
+
+tbody tr:nth-child(even) {
+    background: #f0f0f0;
+    /* Зебра */
+}
+
+tr:hover {
+    background-color: grey;
+}
+input{
+    display: none;
+    font-size: 15px;
+    padding: 5px;
+    margin: 5px;
+}
+label{
+    display: none;
+}
+.submit{
+    display: none;
+    font-size: 15px;
+    padding: 5px;
+    margin: 5px;
+}
+#inputs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}   
+.hs{
+    margin: 10px;
+}
+#header{
+    height: 300px;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Functions</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="main.js" defer></script>
+</head>
+
+<body>
+    <div id="header">
+        <a href="/client/main/main.html"><img
+                src="/client/main/assets/img/274483881_1645194942486803_3466659182258022495_n.jpg" width="100px"
+                height="100px"></a>
+    </div>
+    <ul>
+        <li>
+            <h2>Функції</h2>
+            <ul class='functions'>
+                <li><button class='btns' id='teamWinrate'>Відсоток перемог</button></li>
+                <li><button class='btns' id='teamWinrateAgainst'>Відсоток перемог проти команди</button></li>
+            </ul>
+        </li>
+        <li>
+            <h2>Процедури</h2>
+            <ul class="procedures">
+                <li class='hs'> Статистика для кожного гравця</li>
+                <li><button class='btns' id='avgCatchesForEveryPlayer'>Середня кількість підборів для кожного
+                        гравця</button></li>
+                <li><button class='btns' id="avgScoreForEveryPlayer">Середня кількість набраних очок для кожного
+                        гравця</button></li>
+                <li><button class='btns' id='avgWaistForEveryPlayer'>Середня кількість втрат для кожного гравця</button>
+                </li>
+                <li class='hs'> Статистика за періодами </li>
+                <li><button class='btns' id='avgplayerStatinPeriod'>Середня статистика для гравця за період</button>
+                </li>
+                <li><button class='btns' id='playerStatinPeriod'>Вся статистика гравця за період</button></li>
+                <li><button class='btns' id='selectMatcheswithDatas'>Обрати матчі за періодом</button></li>
+                <li class='hs'>Статистика команди</li>
+                <li><button class='btns' id='teamsStatinMatch'>Статистика всієї команди за матч</button></li>
+                <li><button class='btns' id='teamsStatinPeriod'>Статистика всієї команди за період</button></li>
+                <li class='hs'>Знайдіть кращого гравця</li>
+                <li><button class='btns' id='MVPofmatch'>Кращий гравець нашої команди за матч</button></li>
+                <li><button class='btns' id='MVPofperiod'>Кращий гравець нашої команди за період</button></li>
+                <li class='hs'>Порівняння </li>
+                <li><button class='btns' id='statOfplayersWithAmplua'>Статистика гравців за амплуа</button></li>
+            </ul>
+        </li>
+    </ul>
+    <div class='datadiv'>
+        <table>
+        </table>
+        <div id="inputs">
+            <input id='1' type="number">
+
+            <label for="date-start">Початок періоду з : </label>
+            <input id='2' type="date" id="start" name="date-start" value="" min="1950-01-01" max="">
+
+            <label for="date-end">Кінець періоду : </label>
+            <input id='3' type="date" id="start" name="date-end" value="" min="1950-01-01" max="">
+
+            <input id='4' type="text">
+            <button class='submit'>Знайти</button>
+        </div>
+        <div id="helpful-tables">
+            <table id='helpful-table'></table>
+        </div>
+    </div>
+</body>
+
+</html>

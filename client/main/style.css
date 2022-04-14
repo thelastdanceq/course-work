@@ -1,0 +1,64 @@
+#container {
+    margin: 50px auto;
+    background-color: #fffbc1;
+}
+body {
+    font-family: "Roboto", "Arial", sans-serif;
+  }
+a{
+    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+    font-size: 22px;
+    color: black;
+}
+
+
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	40% {
+		transform: translateY(-20px);
+		transform: translateY(-20px);
+	}
+
+	80% {
+		transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+}
+a:hover{
+    animation: bounce 1s;
+}
+li {
+    list-style-type: none;
+    /* Убираем маркеры */
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+ul {
+    margin-left: 0;
+    /* Отступ слева в браузере IE и Opera */
+    padding-left: 0;
+    /* Отступ слева в браузере Firefox, Safari, Chrome */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border-collapse: collapse;
+    padding: 50px;
+}
+#header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
