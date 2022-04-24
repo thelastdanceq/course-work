@@ -19,6 +19,26 @@ function makeFilterInputs() {
     }
 }
 
+function addHandlersFilters() {
+    Array.from(document.querySelectorAll('#filters input')).forEach(element => {
+        element.addEventListener('keyup', (e) => {
+            console.log(table.childNodes);
+            let inptsvalues = [];
+            Array.from(document.querySelectorAll('#filters input')).forEach(element => {
+                inptsvalues.push(element.value);
+            });
+            for (let i = 1; i < table.rows.length; i++) {
+                table.rows[i].style.display = 'table-row';
+                console.log(table.rows[i].cells[0].innerHTML.toLowerCase());
+                if (table.rows[i].cells[0].innerHTML.toLowerCase().indexOf(inptsvalues[0].toLowerCase()) == -1 || table.rows[i].cells[1].innerHTML.toLowerCase().indexOf(inptsvalues[1].toLowerCase()) == -1 || table.rows[i].cells[2].innerHTML.toLowerCase().indexOf(inptsvalues[2].toLowerCase()) == -1 || table.rows[i].cells[3].innerHTML.toLowerCase().indexOf(inptsvalues[3].toLowerCase()) == -1
+                ) {
+                    table.rows[i].style.display = 'none';
+                }
+            }
+        })
+    });
+}
+
 function fillTable() {
     fetch('http://localhost:3000/teams')
         .then((response) => {
@@ -28,23 +48,8 @@ function fillTable() {
             makeHeaderToTable(data);
             fillTableWithData(data);
             makeFilterInputs(data);
-            Array.from(document.querySelectorAll('#filters input')).forEach(element => {
-                element.addEventListener('keyup', (e) => {
-                    console.log(table.childNodes);
-                    let inptsvalues = [];
-                    Array.from(document.querySelectorAll('#filters input')).forEach(element => {
-                        inptsvalues.push(element.value);
-                    });
-                    for (let i = 1; i < table.rows.length; i++) {
-                        table.rows[i].style.display = 'table-row';
-                        console.log(table.rows[i].cells[0].innerHTML.toLowerCase());
-                        if (table.rows[i].cells[0].innerHTML.toLowerCase().indexOf(inptsvalues[0].toLowerCase()) == -1 || table.rows[i].cells[1].innerHTML.toLowerCase().indexOf(inptsvalues[1].toLowerCase()) == -1 || table.rows[i].cells[2].innerHTML.toLowerCase().indexOf(inptsvalues[2].toLowerCase()) == -1 || table.rows[i].cells[3].innerHTML.toLowerCase().indexOf(inptsvalues[3].toLowerCase()) == -1 
-                        ) {
-                            table.rows[i].style.display = 'none';
-                        }
-                    }
-                })
-            });
+            addHandlersFilters();
+
             sortTable();
         });
 
@@ -70,7 +75,7 @@ function fillTable() {
                 th.id = field + 'th';
                 th.name = k;
                 th.innerHTML = arr1[k];
-                
+
                 k++;
                 tr.appendChild(th)
             }
@@ -172,7 +177,7 @@ function makeNewButtonActive() {
             let input = document.createElement("input");
             input.placeholder = table.rows[0].cells[i].innerHTML;
             input.classList.add(table.rows[0].cells[i].id);
-            if(input.classList.contains('team_ratingth')){
+            if (input.classList.contains('team_ratingth')) {
                 input.type = "number";
             } else {
                 input.type = "text";
@@ -225,7 +230,7 @@ function makeNewButtonActive() {
                 if (!obj.team_city || !obj.team_name || !obj.team_country || !obj.team_rating) {
                     return false;
                 }
-                if(!Number.parseInt(obj.team_rating)){
+                if (!Number.parseInt(obj.team_rating)) {
                     return false;
                 }
 
@@ -292,9 +297,9 @@ function makeEditButtonsActive() {
         for (let elem of values) {
             let input = document.createElement("input");
             input.value = elem;
-            input.classList.add( table.rows[0].cells[j].id) ;
+            input.classList.add(table.rows[0].cells[j].id);
             editForm.appendChild(input);
-            if(input.classList.contains('team_ratingth')){
+            if (input.classList.contains('team_ratingth')) {
                 input.type = "number";
             } else {
                 input.type = "text";
@@ -347,7 +352,7 @@ function makeEditButtonsActive() {
                 if (!obj.team_city || !obj.team_name || !obj.team_country || !obj.team_rating) {
                     return false;
                 }
-                if(!Number.parseInt(obj.team_rating)){
+                if (!Number.parseInt(obj.team_rating)) {
                     return false;
                 }
                 return true;
@@ -375,7 +380,7 @@ function makeEditButtonsActive() {
 }
 
 
-function sortTable (){
+function sortTable() {
     const table = document.querySelector('table');
     const headers = table.querySelectorAll('th');
     const tbody = table.querySelector('tbody');
