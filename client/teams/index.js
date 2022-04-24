@@ -29,7 +29,6 @@ function addHandlersFilters() {
             });
             for (let i = 1; i < table.rows.length; i++) {
                 table.rows[i].style.display = 'table-row';
-                console.log(table.rows[i].cells[0].innerHTML.toLowerCase());
                 if (table.rows[i].cells[0].innerHTML.toLowerCase().indexOf(inptsvalues[0].toLowerCase()) == -1 || table.rows[i].cells[1].innerHTML.toLowerCase().indexOf(inptsvalues[1].toLowerCase()) == -1 || table.rows[i].cells[2].innerHTML.toLowerCase().indexOf(inptsvalues[2].toLowerCase()) == -1 || table.rows[i].cells[3].innerHTML.toLowerCase().indexOf(inptsvalues[3].toLowerCase()) == -1
                 ) {
                     table.rows[i].style.display = 'none';
