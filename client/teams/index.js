@@ -49,7 +49,6 @@ function fillTable() {
             fillTableWithData(data);
             makeFilterInputs(data);
             addHandlersFilters();
-
             sortTable();
         });
 
