@@ -13,6 +13,12 @@ let submit = document.getElementsByClassName('submit')[0];
 let labels = Array.from(document.getElementsByTagName('label'));
 let btns = Array.from(document.getElementsByClassName('btns'));
 function clearInputs() {
+    while (table.firstChild) {
+        table.removeChild(table.firstChild);
+    }
+    while (helpTable.firstChild) {
+        helpTable.removeChild(helpTable.firstChild);
+    }
     firstinput.style.display = 'none';
     secondinput.style.display = 'none';
     thirdInput.style.display = 'none';
@@ -1074,7 +1080,7 @@ MVPofmatchBtn.addEventListener('click', () => {
 let MVPofperiodBtn = document.getElementById('MVPofperiod');
 
 MVPofperiodBtn.addEventListener('click', () => {
-    while(table.firstChild){
+    while (table.firstChild) {
         table.removeChild(table.firstChild)
     }
     clearInputs();
