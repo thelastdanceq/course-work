@@ -9,15 +9,52 @@ function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
         let input = document.createElement("input");
-        input.placeholder = table.rows[0].cells[i].innerHTML;
+
         input.id = table.rows[0].cells[i].classList + 'filter';
-        if (input.id === 'player_height' || input.id === 'weigth' || input.id === 'id_qual' || input.id === 'id_amplua' || input.id === 'id_team') {
+        if (input.id === 'player_heightfilter' || input.id === "weigthfilter") {
+            input.placeholder = table.rows[0].cells[i].innerHTML + ' від ...'
+        } else {
+            input.placeholder = table.rows[0].cells[i].innerHTML;
+        }
+        if (input.id === 'player_heightfilter' || input.id === 'weigthfilter' || input.id === 'id_qualfilter' || input.id === 'id_ampluafilter' || input.id === 'id_teamfilter') {
             input.type = "number";
-        } else if (input.id === 'player_dateofbirth') {
-            input.type = "date";
+        } else {
+            input.type = 'text'
         }
         filterForm.appendChild(input);
     }
+    let filterBtn = document.createElement('button');
+    filterBtn.innerHTML = 'Примінити фільтри';
+    filterBtn.classList.add('filter-btn');
+    filterForm.appendChild(filterBtn);
+}
+function logicOfFiltering() {
+    let filterBtn = document.querySelector('.filter-btn');
+    filterBtn.addEventListener('click', () => {
+        let inputs = Array.from(document.querySelector('#filters').children).slice(0, -1);
+        let arr = inputs.map(element => {
+            return element = { id: element.id, type: element.type, value: element.value };
+        });
+
+        Array.from(table.rows).slice(1).forEach((row) => {
+            row.style.display = 'table-row';
+            console.log(row);
+            let i = 0;
+            for (let obj of arr) {
+                if (obj.type === 'text' && obj.value != "") {
+                    if (row.children[i].innerHTML.toLowerCase().indexOf(obj.value.toLowerCase()) == -1) {
+                        row.style.display = 'none';
+                    }
+                } else {
+                    if (Number.parseInt(obj.value) > Number.parseInt(row.children[i].innerHTML)) {
+                        row.style.display = 'none';
+                    }
+                }
+                i++;
+            }
+        })
+    })
+
 }
 
 
@@ -31,22 +68,7 @@ function fillTable() {
             makeHeaderToTable(data);
             fillTableWithData(data);
             makeFilterInputs(data);
-            Array.from(document.querySelectorAll('#filters input')).forEach(element => {
-                element.addEventListener('keyup', (e) => {
-                    console.log(table.childNodes);
-                    let inptsvalues = [];
-                    Array.from(document.querySelectorAll('#filters input')).forEach(element => {
-                        inptsvalues.push(element.value);
-                    });
-                    for (let i = 1; i < table.rows.length; i++) {
-                        table.rows[i].style.display = 'table-row';
-                        if (table.rows[i].cells[0].innerHTML.toLowerCase().indexOf(inptsvalues[0].toLowerCase()) == -1 || table.rows[i].cells[1].innerHTML.toLowerCase().indexOf(inptsvalues[1].toLowerCase()) == -1 || table.rows[i].cells[2].innerHTML.toLowerCase().indexOf(inptsvalues[2].toLowerCase()) == -1 || table.rows[i].cells[3].innerHTML.toLowerCase().indexOf(inptsvalues[3].toLowerCase()) == -1 || table.rows[i].cells[4].innerHTML.toLowerCase().indexOf(inptsvalues[4].toLowerCase()) == -1 || table.rows[i].cells[5].innerHTML.toLowerCase().indexOf(inptsvalues[5].toLowerCase()) == -1 || table.rows[i].cells[6].innerHTML.toLowerCase().indexOf(inptsvalues[6].toLowerCase()) == -1 || table.rows[i].cells[7].innerHTML.toLowerCase().indexOf(inptsvalues[7].toLowerCase()) == -1) {
-                            table.rows[i].style.display = 'none';
-                        }
-                    }
-                })
-            });
-
+            logicOfFiltering();
 
             sortTable();
         });
@@ -93,20 +115,20 @@ function fillTable() {
         const table = document.querySelector('table');
         const headers = table.querySelectorAll('th');
         const tbody = table.querySelector('tbody');
-    
+
         const directions = Array.from(headers).map(() => '');
-        
-    
+
+
         const transform = (type, content) => {
             switch (type) {
                 case 'integer':
-                    return parseInt(content); 
+                    return parseInt(content);
                 case 'text':
                 default:
                     return content;
             }
         }
-    
+
         const sortColumn = (index) => {
             const type = headers[index].dataType;
             const rows = tbody.querySelectorAll('tr');
@@ -116,10 +138,10 @@ function fillTable() {
             newRows.sort((row1, row2) => {
                 const cellA = row1.querySelectorAll('td')[index].textContent;
                 const cellB = row2.querySelectorAll('td')[index].textContent;
-    
+
                 const a = transform(type, cellA);
                 const b = transform(type, cellB);
-    
+
                 switch (true) {
                     case a > b:
                         return 1 * multiply;
@@ -128,21 +150,21 @@ function fillTable() {
                     default:
                         break;
                     case a === b:
-                    return 0;
+                        return 0;
                 }
             });
-    
+
             [].forEach.call(rows, (row) => {
                 tbody.removeChild(row);
             });
-    
+
             directions[index] = direction === 'sortUp' ? 'sortDown' : 'sortUp';
-    
+
             newRows.forEach(newRow => {
                 tbody.appendChild(newRow);
             });
         }
-    
+
         [].forEach.call(headers, (header, index) => {
             header.addEventListener('click', () => {
                 sortColumn(index);
