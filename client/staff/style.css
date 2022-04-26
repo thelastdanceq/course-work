@@ -131,12 +131,13 @@ body {
     height: 150px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     background-color: pink;
 }
 
 #filters input {
+    margin: 5px;
     width: 20%;
     height: 20%;
 }
