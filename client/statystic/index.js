@@ -1,4 +1,4 @@
-const arr1 = ['ID матчу',  'ПІБ гравця', 'К-сть підборів', 'К-сть втрат', 'К-сть набраних очок'];
+const arr1 = ['ID матчу', 'ПІБ гравця', 'К-сть підборів', 'К-сть втрат', 'К-сть набраних очок'];
 const table = document.getElementById("table");
 fillTable();
 makeDeleteButtonsActive();
@@ -8,18 +8,64 @@ function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
         let input = document.createElement("input");
-        input.placeholder = table.rows[0].cells[i].innerHTML;
         input.id = table.rows[0].cells[i].classList + 'filter';
-        if (input.id == ('stat_catches_selffilter') || input.id == ('stat_waistsfilter')
-        || input.id ==('stat_scoresfilter') || input.id ==('id_matchfilter')) {
-            input.type = 'number';
-        } else if (input.id ==('match_datefilter')) {
-            input.type = "date";
+        if (input.id === 'stat_catches_selffilter' || input.id === "stat_waistsfilter" || input.id === "stat_scoresfilter") {
+            input.placeholder = table.rows[0].cells[i].innerHTML + ' від ...'
         } else {
-            input.type = 'text';
+            input.placeholder = table.rows[0].cells[i].innerHTML;
+        }
+
+        if (input.id === 'stat_catches_selffilter' || input.id === 'stat_waistsfilter' || input.id === 'stat_scoresfilter' || input.id === 'id_ampluafilter' || input.id === 'id_teamfilter') {
+            input.type = "number";
+        } else {
+            input.type = 'text'
         }
         filterForm.appendChild(input);
+        if (input.id === 'stat_catches_selffilter' || input.id === "stat_waistsfilter" || input.id === "stat_scoresfilter") {
+            let secondInput = document.createElement('input');
+        secondInput.id = input.id + 'less';
+        secondInput.placeholder = input.placeholder.split(' ').slice(0, 3).join(' ') + " до ...";
+        secondInput.type = input.type;
+        filterForm.appendChild(secondInput);
     }
+}
+let filterBtn = document.createElement('button');
+filterBtn.innerHTML = 'Примінити фільтри';
+filterBtn.classList.add('filter-btn');
+filterForm.appendChild(filterBtn);
+}
+function logicOfFiltering() {
+    let filterBtn = document.querySelector('.filter-btn');
+    filterBtn.addEventListener('click', () => {
+        let inputs = Array.from(document.querySelector('#filters').children).slice(0, -1);
+        let arr = inputs.map(element => {
+            return element = { id: element.id, type: element.type, value: element.value };
+        });
+
+        Array.from(table.rows).slice(1).forEach((row) => {
+            row.style.display = 'table-row';
+            let i = 0;
+            for (let obj of arr) {
+                if (obj.type === 'text' && obj.value != "") {
+                    if (row.children[i].innerHTML.toLowerCase().indexOf(obj.value.toLowerCase()) == -1) {
+                        row.style.display = 'none';
+                    }
+                } else {
+                    if (obj.id.slice(obj.id.length - 4) == 'less') {
+                        i--;
+                        if (Number.parseInt(obj.value) < Number.parseInt(row.children[i].innerHTML)) {
+                            row.style.display = 'none';
+                        }
+                    } else {
+                        if (Number.parseInt(obj.value) > Number.parseInt(row.children[i].innerHTML)) {
+                            row.style.display = 'none';
+                        }
+                    }
+                }
+                i++;
+            }
+        })
+    })
 }
 
 function fillTable() {
@@ -31,22 +77,7 @@ function fillTable() {
             makeHeaderToTable(data);
             fillTableWithData(data);
             makeFilterInputs(data);
-            Array.from(document.querySelectorAll('#filters input')).forEach(element => {
-                element.addEventListener('keyup', (e) => {
-                    console.log(table.childNodes);
-                    let inptsvalues = [];
-                    Array.from(document.querySelectorAll('#filters input')).forEach(element => {
-                        inptsvalues.push(element.value);
-                    });
-                    for (let i = 1; i < table.rows.length; i++) {
-                        table.rows[i].style.display = 'table-row';
-                        console.log(table.rows[i].cells[0].innerHTML.toLowerCase());
-                        if (table.rows[i].cells[0].innerHTML.toLowerCase().indexOf(inptsvalues[0].toLowerCase()) == -1 || table.rows[i].cells[1].innerHTML.toLowerCase().indexOf(inptsvalues[1].toLowerCase()) == -1 || table.rows[i].cells[2].innerHTML.toLowerCase().indexOf(inptsvalues[2].toLowerCase()) == -1 || table.rows[i].cells[3].innerHTML.toLowerCase().indexOf(inptsvalues[3].toLowerCase()) == -1 || table.rows[i].cells[4].innerHTML.toLowerCase().indexOf(inptsvalues[4].toLowerCase()) == -1) {
-                            table.rows[i].style.display = 'none';
-                        }
-                    }
-                })
-            });
+            logicOfFiltering();
             sortTable();
         });
 
@@ -292,7 +323,7 @@ function makeEditButtonsActive() {
             j++;
         }
 
-        
+
 
         let confirmEditBtn = document.createElement("button");
         confirmEditBtn.innerHTML = "Підтвердити зміни";
