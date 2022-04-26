@@ -9,19 +9,26 @@ function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
         let input = document.createElement("input");
-
         input.id = table.rows[0].cells[i].classList + 'filter';
         if (input.id === 'player_heightfilter' || input.id === "weigthfilter") {
             input.placeholder = table.rows[0].cells[i].innerHTML + ' від ...'
         } else {
             input.placeholder = table.rows[0].cells[i].innerHTML;
         }
+
         if (input.id === 'player_heightfilter' || input.id === 'weigthfilter' || input.id === 'id_qualfilter' || input.id === 'id_ampluafilter' || input.id === 'id_teamfilter') {
             input.type = "number";
         } else {
             input.type = 'text'
         }
         filterForm.appendChild(input);
+        if (input.id === "player_heightfilter" || input.id === "weigthfilter") {
+            let secondInput = document.createElement('input');
+            secondInput.id = input.id + 'less';
+            secondInput.placeholder = input.placeholder.split(' ')[0] + " до ...";
+            secondInput.type = input.type;
+            filterForm.appendChild(secondInput);
+        }
     }
     let filterBtn = document.createElement('button');
     filterBtn.innerHTML = 'Примінити фільтри';
@@ -38,7 +45,6 @@ function logicOfFiltering() {
 
         Array.from(table.rows).slice(1).forEach((row) => {
             row.style.display = 'table-row';
-            console.log(row);
             let i = 0;
             for (let obj of arr) {
                 if (obj.type === 'text' && obj.value != "") {
@@ -46,8 +52,17 @@ function logicOfFiltering() {
                         row.style.display = 'none';
                     }
                 } else {
-                    if (Number.parseInt(obj.value) > Number.parseInt(row.children[i].innerHTML)) {
-                        row.style.display = 'none';
+                    if (obj.id.slice(obj.id.length - 4) == 'less') {
+                        i--;
+                        console.log(Number.parseInt(obj.value), Number.parseInt(row.children[i].innerHTML), Number.parseInt(obj.value) < Number.parseInt(row.children[i].innerHTML));
+                        if (Number.parseInt(obj.value) < Number.parseInt(row.children[i].innerHTML)) {
+                            row.style.display = 'none';
+                            console.log(row);
+                        }
+                    } else {
+                        if (Number.parseInt(obj.value) > Number.parseInt(row.children[i].innerHTML)) {
+                            row.style.display = 'none';
+                        }
                     }
                 }
                 i++;
