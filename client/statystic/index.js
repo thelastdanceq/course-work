@@ -1,9 +1,19 @@
 const arr1 = ['ID матчу', 'ПІБ гравця', 'К-сть підборів', 'К-сть втрат', 'К-сть набраних очок'];
 const table = document.getElementById("table");
+let score = document.getElementById('rows-count');
 fillTable();
 makeDeleteButtonsActive();
 makeEditButtonsActive();
 makeNewButtonActive();
+function getCountOfNonActiveRows(rows) {
+    let sum = 0;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].style.display == 'none') {
+            sum += 1;
+        }
+    }
+    return sum;
+}
 function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
@@ -23,16 +33,16 @@ function makeFilterInputs() {
         filterForm.appendChild(input);
         if (input.id === 'stat_catches_selffilter' || input.id === "stat_waistsfilter" || input.id === "stat_scoresfilter") {
             let secondInput = document.createElement('input');
-        secondInput.id = input.id + 'less';
-        secondInput.placeholder = input.placeholder.split(' ').slice(0, 3).join(' ') + " до ...";
-        secondInput.type = input.type;
-        filterForm.appendChild(secondInput);
+            secondInput.id = input.id + 'less';
+            secondInput.placeholder = input.placeholder.split(' ').slice(0, 3).join(' ') + " до ...";
+            secondInput.type = input.type;
+            filterForm.appendChild(secondInput);
+        }
     }
-}
-let filterBtn = document.createElement('button');
-filterBtn.innerHTML = 'Примінити фільтри';
-filterBtn.classList.add('filter-btn');
-filterForm.appendChild(filterBtn);
+    let filterBtn = document.createElement('button');
+    filterBtn.innerHTML = 'Примінити фільтри';
+    filterBtn.classList.add('filter-btn');
+    filterForm.appendChild(filterBtn);
 }
 function logicOfFiltering() {
     let filterBtn = document.querySelector('.filter-btn');
@@ -65,6 +75,8 @@ function logicOfFiltering() {
                 i++;
             }
         })
+        console.log(getCountOfNonActiveRows(table.rows));
+        score.innerHTML = table.rows.length - getCountOfNonActiveRows(table.rows) - 1;
     })
 }
 
@@ -79,6 +91,7 @@ function fillTable() {
             makeFilterInputs(data);
             logicOfFiltering();
             sortTable();
+            score.innerHTML = table.rows.length - 1;
         });
 
 
@@ -471,7 +484,6 @@ function fillTableWithData(arr) {
         editBtn.name = obj[Object.keys(arr[0])[0]];
         td2.appendChild(editBtn);
         tr.appendChild(td2);
-
 
         tbody.appendChild(tr);
     }
