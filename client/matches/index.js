@@ -1,5 +1,15 @@
 const arr1 = ["Назва першої команди", 'Назва другої команди', 'Рахунок I', 'Рахунок II', 'Назва турніру', 'Дата матчу'];
 const table = document.getElementById("table");
+let score = document.getElementById('rows-count');
+function getCountOfNonActiveRows(rows) {
+    let sum = 0;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].style.display == 'none') {
+            sum += 1;
+        }
+    }
+    return sum;
+}
 fillTable();
 makeDeleteButtonsActive();
 makeEditButtonsActive();
@@ -65,6 +75,7 @@ function logicOfFiltering() {
                 i++;
             }
         })
+        score.innerHTML = table.rows.length - getCountOfNonActiveRows(table.rows) - 1;
     })
 }
 
@@ -78,8 +89,9 @@ function fillTable() {
             fillTableWithData(data);
             makeFilterInputs(data);
             logicOfFiltering();
-
             sortTable();
+            score.innerHTML = table.rows.length - 1;
+
         });
 
 

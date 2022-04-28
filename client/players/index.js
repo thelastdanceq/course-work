@@ -1,10 +1,19 @@
 const arr1 = ["Ім'я", 'Прізвище', 'Дата народження', 'Зріст', 'Вага', 'Кваліфікація', 'Амплуа', 'Команда'];
 const table = document.getElementById("table");
-let colIndex = -1;
+let score = document.getElementById('rows-count');
 fillTable();
 makeDeleteButtonsActive();
 makeEditButtonsActive();
 makeNewButtonActive();
+function getCountOfNonActiveRows(rows) {
+    let sum = 0;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].style.display == 'none') {
+            sum += 1;
+        }
+    }
+    return sum;
+}
 function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
@@ -68,6 +77,8 @@ function logicOfFiltering() {
                 i++;
             }
         })
+        score.innerHTML = table.rows.length - getCountOfNonActiveRows(table.rows) - 1;
+
     })
 
 }
@@ -86,6 +97,8 @@ function fillTable() {
             logicOfFiltering();
 
             sortTable();
+            score.innerHTML = table.rows.length - 1;
+
         });
 
 

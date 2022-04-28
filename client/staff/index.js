@@ -1,9 +1,20 @@
 const arr1 = ["Ім'я", 'Прізвище', 'По батькові', 'Вік', 'ID позиції', 'ID команди'];
 const table = document.getElementById("table");
+let score = document.getElementById('rows-count');
+
 fillTable();
 makeDeleteButtonsActive();
 makeEditButtonsActive();
 makeNewButtonActive();
+function getCountOfNonActiveRows(rows) {
+    let sum = 0;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].style.display == 'none') {
+            sum += 1;
+        }
+    }
+    return sum;
+}
 function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
@@ -42,8 +53,11 @@ function fillTable() {
                             table.rows[i].style.display = 'none';
                         }
                     }
+                    score.innerHTML = table.rows.length - getCountOfNonActiveRows(table.rows) - 1;
+
                 })
             });
+            score.innerHTML = table.rows.length - 1;
             sortTable()
         });
 

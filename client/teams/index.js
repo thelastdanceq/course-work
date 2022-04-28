@@ -1,9 +1,19 @@
 let arr1 = ['Назва', 'Місто', 'Країна', 'Рейтинг'];
 const table = document.getElementById("table");
+let score = document.getElementById('rows-count')
 fillTable();
 makeDeleteButtonsActive();
 makeEditButtonsActive();
 makeNewButtonActive();
+function getCountOfNonActiveRows(rows) {
+    let sum = 0;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].style.display == 'none') {
+            sum += 1;
+        }
+    }
+    return sum;
+}
 function makeFilterInputs() {
     let filterForm = document.getElementById('filters');
     for (let i = 0; i < table.rows[0].cells.length; i++) {
@@ -34,8 +44,11 @@ function addHandlersFilters() {
                     table.rows[i].style.display = 'none';
                 }
             }
+            score.innerHTML = table.rows.length - getCountOfNonActiveRows(table.rows) - 1;
+
         })
     });
+
 }
 
 function fillTable() {
@@ -49,6 +62,7 @@ function fillTable() {
             makeFilterInputs(data);
             addHandlersFilters();
             sortTable();
+            score.innerHTML = table.rows.length - 1;
         });
 
 
